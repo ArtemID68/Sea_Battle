@@ -1,6 +1,7 @@
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
+#include <Windows.h>
 
 using namespace std;
 
@@ -44,7 +45,8 @@ void printBoard(char board[BOARD_SIZE][BOARD_SIZE], bool hideShips) {
         for (int col = 0; col < BOARD_SIZE; col++) {
             if (hideShips && board[row][col] == 'S') {
                 cout << "- ";
-            } else {
+            }
+            else {
                 cout << board[row][col] << " ";
             }
         }
@@ -66,6 +68,11 @@ bool shipsRemaining(char board[BOARD_SIZE][BOARD_SIZE]) {
 }
 
 int main() {
+    //SetConsoleCP(1251);
+    //SetConsoleOutputCP(1251);
+
+    setlocale(LC_ALL, "russian_russia.1251");
+
     // Инициализируем генератор случайных чисел
     srand(time(0));
 
@@ -87,13 +94,13 @@ int main() {
     // Основной игровой цикл
     while (true) {
         int row, col;
-        
+
         // Ход игрока
         cout << "\nВаш ход. Введите координаты выстрела (номер ряда и номер столбца): ";
         cin >> row >> col;
 
         // Проверка корректности введённых координат
-        if (row < 0  row >= BOARD_SIZE  col < 0 || col >= BOARD_SIZE) {
+        if (row < 0 | row >= BOARD_SIZE || col < 0 || col >= BOARD_SIZE) {
             cout << "Неверные координаты. Попробуйте ещё раз." << endl;
             continue;
         }
@@ -108,7 +115,9 @@ int main() {
         if (computerBoard[row][col] == 'S') {
             cout << "Попадание! Вы потопили корабль противника!" << endl;
             computerBoard[row][col] = 'X';  // Записываем попадание
-        } else {
+        }
+        else
+        {
             cout << "Промах." << endl;
             computerBoard[row][col] = '*';  // Записываем промах
         }
@@ -131,11 +140,12 @@ int main() {
         } while (playerBoard[compRow][compCol] == 'X' || playerBoard[compRow][compCol] == '*');
 
         cout << "Компьютер выбрал: " << compRow << " " << compCol << endl;
-        
+
         if (playerBoard[compRow][compCol] == 'S') {
             cout << "Компьютер попал в ваш корабль!" << endl;
             playerBoard[compRow][compCol] = 'X';
-        } else {
+        }
+        else {
             cout << "Компьютер промахнулся." << endl;
             playerBoard[compRow][compCol] = '*';
         }
